@@ -10,6 +10,10 @@ More basic examples can be found [here](https://github.com/slick/slick-examples)
 
 - [HyperSQL](http://hsqldb.org/) &mdash; embedded RDMBS;
 
+- [c3p0](http://www.mchange.com/projects/c3p0/) &mdash; DB connection pool;
+
+- [Scala Specs2](http://etorreborre.github.io/specs2/) &mdash; BDD library for Scala;
+
 ### License ###
 The app is open sourced under <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> license.
 If this license doesn't suit you mail me at n.martynenko (at) aimprosoft.com.
@@ -19,4 +23,3 @@ If this license doesn't suit you mail me at n.martynenko (at) aimprosoft.com.
 * <a href="https://github.com/nmartynenko/slick2-generic-example/zipball/master">slick2-generic-example.zip</a>
 
 * <a href="https://github.com/nmartynenko/slick2-generic-example/tarball/master">slick2-generic-example.tar.gz</a>
-

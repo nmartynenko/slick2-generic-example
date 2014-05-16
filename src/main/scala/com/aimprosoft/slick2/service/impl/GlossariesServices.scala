@@ -1,6 +1,6 @@
 package com.aimprosoft.slick2.service.impl
 
-import com.aimprosoft.slick2.config.Config.DB
+import com.aimprosoft.slick2.config.DB
 import com.aimprosoft.slick2.config.Config.driver.simple._
 import com.aimprosoft.slick2.model.{Glossary, User}
 import com.aimprosoft.slick2.persistence.Persistence

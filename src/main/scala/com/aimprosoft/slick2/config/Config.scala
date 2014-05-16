@@ -2,8 +2,22 @@ package com.aimprosoft.slick2.config
 
 import scala.slick.driver._
 import scala.slick.jdbc.JdbcBackend
+import java.util.Properties
+import scala.util.{Failure, Success, Try}
+import com.typesafe.scalalogging.slf4j.StrictLogging
+import javax.sql.DataSource
+import com.mchange.v2.c3p0.ComboPooledDataSource
 
-class Config {
+class Config extends StrictLogging {
+
+  protected lazy val configProps = {
+    val props = new Properties
+    val reader = scala.io.Source.fromURL(getClass.getResource("/db.properties")).bufferedReader()
+    props.load(reader)
+    reader.close()
+    props
+  }
+
   val defaultName = "default"
 
   /** Extend this to add driver or change driver mapping */
@@ -18,17 +32,13 @@ class Config {
     "org.sqlite.JDBC" -> SQLiteDriver
   ).get
 
-  //can be loaded from config file
-  def driverName: String = "org.hsqldb.jdbc.JDBCDriver"
+  def driverClassName: String = configProps.getProperty("jdbc.driverClassName")
 
-  //can be loaded from config file
-  def driverUrl: String = "jdbc:hsqldb:mem:test"
+  def driverUrl: String = configProps.getProperty("jdbc.url")
 
-  //can be loaded from config file
-  def driverUsername: String = "sa"
+  def driverUsername: String = configProps.getProperty("jdbc.username")
 
-  //can be loaded from config file
-  def driverPassoword: String = ""
+  def driverPassword: String = configProps.getProperty("jdbc.password")
 
   def driver(name: String = defaultName) = {
     driverByName(name).getOrElse(sys.error("No suitable driver was found"))
@@ -37,8 +47,24 @@ class Config {
 
 object Config extends Config {
 
-  lazy val driver: JdbcDriver = driver(driverName)
+  private lazy val ds: DataSource = {
+    //create datasource
+    val ds = new ComboPooledDataSource()
 
-  //TODO switch it with DB connection pool
-  lazy val DB: JdbcBackend#Database = driver.simple.Database.forURL(url = driverUrl, user = driverUsername, password = driverPassoword)
+    //set common values
+    ds.setDriverClass(driverClassName)
+    ds.setJdbcUrl(driverUrl)
+    ds.setUser(driverUsername)
+    ds.setPassword(driverPassword)
+
+    //set c3p0 properties
+    ds.setProperties(configProps)
+
+    ds
+  }
+
+  lazy val driver: JdbcDriver = driver(driverClassName)
+
+  //create single instance of DB
+  lazy val DB: JdbcBackend#Database = driver.simple.Database.forDataSource(ds)
 }
