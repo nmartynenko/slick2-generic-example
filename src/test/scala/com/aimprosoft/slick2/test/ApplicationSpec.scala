@@ -1,8 +1,7 @@
 package com.aimprosoft.slick2.test
 
-import com.aimprosoft.slick2.config.DB
-import com.aimprosoft.slick2.config.Config.driver.simple._
-import com.aimprosoft.slick2.persistence.impl.{GlossaryPersistence, UserPersistence}
+import com.aimprosoft.slick2.Example
+import com.aimprosoft.slick2.service.{GlossaryService, UserService}
 import org.junit.runner.RunWith
 import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
@@ -10,26 +9,23 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class ApplicationSpec extends Specification {
 
-  //create DB schema
-  DB withSession {implicit session =>
-    (UserPersistence.tableQuery.ddl ++ GlossaryPersistence.tableQuery.ddl).create
-  }
+  //call startup action
+  Example.createTestEnvironment()
 
-  //TODO cover with tests
   "Service layer of Application" should {
 
     "User Service" should {
 
-      "Dummy" in {
-        true mustEqual true
+      "return positive count of users, present in DB" in {
+        UserService.count must beGreaterThanOrEqualTo(0)
       }
 
     }
 
     "Glossary Service" should {
 
-      "Dummy" in {
-        true mustEqual true
+      "return positive count of glossaries, present in DB" in {
+        GlossaryService.count must beGreaterThanOrEqualTo(0)
       }
 
     }

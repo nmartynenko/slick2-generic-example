@@ -2,6 +2,7 @@ package com.aimprosoft.slick2.persistence
 
 import com.aimprosoft.slick2.config.Config.driver.simple._
 import scala.language.reflectiveCalls
+import scala.slick.lifted
 
 //abstract persistence trait
 trait Persistence[T, ID] {
@@ -37,9 +38,9 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
   val tableQuery: TableQuery[TQ] /* = TableQuery[TQ] */
 
   //helper methods
-  def byId(id: ID)(implicit session: Session): Query[TQ, T] = tableQuery.filter(_.id === id)
+  def byId(id: ID)(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = tableQuery.filter(_.id === id)
 
-  def byId(idOpt: Option[ID])(implicit session: Session): Query[TQ, T] = {
+  def byId(idOpt: Option[ID])(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = {
     idOpt match {
       case Some(id) => byId(id)
       case _ => throw new IllegalArgumentException("ID option should not be None")
@@ -72,7 +73,7 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
     }
 
     //perform query
-    q.list()
+    q.list
   }
 
   def insert(entity: T)(implicit session: Session): ID = {
