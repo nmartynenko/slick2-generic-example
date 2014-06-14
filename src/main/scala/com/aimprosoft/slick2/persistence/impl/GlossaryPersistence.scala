@@ -2,7 +2,7 @@ package com.aimprosoft.slick2.persistence.impl
 
 import com.aimprosoft.slick2.config.Config.driver.simple._
 import com.aimprosoft.slick2.model.{Glossary, User}
-import com.aimprosoft.slick2.persistence.{SlickBasePersistence, SlickBaseTable, Persistence}
+import com.aimprosoft.slick2.persistence.Persistence
 
 //application DAO
 trait GlossaryPersistence extends Persistence[Glossary, Long]

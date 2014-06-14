@@ -18,6 +18,10 @@ More basic examples can be found [here](https://github.com/slick/slick-examples)
 The app is open sourced under <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> license.
 If this license doesn't suit you mail me at n.martynenko (at) aimprosoft.com.
 
+###Credits###
+
+Config layer is inspired by [play-slick](https://github.com/playframework/play-slick) plugin for [Playframework](http://www.playframework.com/).
+
 ### Download ###
 
 * <a href="https://github.com/nmartynenko/slick2-generic-example/zipball/master">slick2-generic-example.zip</a>

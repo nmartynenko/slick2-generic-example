@@ -2,7 +2,7 @@
 
 name := "slick2-generic-example"
 
-version := "0.1"
+version := "0.2"
 
 //dependencies resolvers
 
@@ -11,7 +11,7 @@ resolvers += "Sonatype" at "http://search.maven.org/remotecontent?filepath="
 //Scala's compiler and runtime settings
 
 //default scala version
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.1"
 
 crossScalaVersions := Seq("2.10.4", "2.11.1")
 
@@ -31,9 +31,7 @@ libraryDependencies ++= Seq(
   //security
   "org.mindrot" % "jbcrypt" % "0.3m",
   //runtime dependencies
-//  "com.typesafe.slick" %% "slick" % "2.0.2",
   "com.typesafe.slick" %% "slick" % "2.1.0-M2",
   "org.hsqldb" % "hsqldb" % "2.3.2",
-  "mysql" % "mysql-connector-java" % "5.1.23",
   "com.mchange" % "c3p0" % "0.9.2.1"
 )
