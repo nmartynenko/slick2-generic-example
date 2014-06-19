@@ -17,19 +17,19 @@ trait SlickTransactional {
 
 }
 
-trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]] extends BaseCrudService[T]
+trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService[T, ID]
 with SlickTransactional{
 
-  def persistence: P
+  def persistence: Persistence[T, ID]
 
-  def list(startRow: Int = -1, pageSize: Int = -1): Seq[T] = readOnly {
+  def list(startRow: Int = 0, pageSize: Int = -1): Seq[T] = readOnly {
     implicit session: Session => {
       //list of entities
       persistence.list(startRow, pageSize)
     }
   }
 
-  def exists(id: Long): Boolean = readOnly {
+  def exists(id: ID): Boolean = readOnly {
     implicit session: Session =>
       persistence.exists(id)
   }
@@ -44,7 +44,7 @@ with SlickTransactional{
       persistence.list(0, 1).headOption
   }
 
-  def getById(id: Long): Option[T] = readOnly {
+  def getById(id: ID): Option[T] = readOnly {
     implicit session: Session =>
       persistence.get(id)
   }
@@ -59,11 +59,13 @@ with SlickTransactional{
       persistence.update(entity)
   }
 
-  def remove(entity: T): Unit = entity.id foreach { id =>
-    removeById(id)
+  def remove(entity: T): Unit = {
+    entity.id foreach { id =>
+      removeById(id)
+    }
   }
 
-  def removeById(id: Long): Unit = transactional {
+  def removeById(id: ID): Unit = transactional {
     implicit session: Session =>
       persistence.delete(id)
   }
@@ -71,12 +73,12 @@ with SlickTransactional{
 }
 
 class GlossaryServiceImpl extends GlossaryService
-with BaseCrudServiceImpl[Glossary, GlossaryPersistence] {
+with BaseCrudServiceImpl[Glossary, Long] {
   def persistence = GlossaryPersistence
 }
 
 class UserServiceImpl extends UserService
-with BaseCrudServiceImpl[User, UserPersistence] {
+with BaseCrudServiceImpl[User, Long] {
 
   def persistence = UserPersistence
 
@@ -89,11 +91,11 @@ with BaseCrudServiceImpl[User, UserPersistence] {
 
   def getByEmail(email: String): Option[User] = transactional {
     implicit session: Session =>
-      UserPersistence.findByEmail(email)
+      persistence.findByEmail(email)
   }
 
-  override def countByRole(role: String): Long = readOnly {
+  def countByRole(role: String): Int = readOnly {
     implicit session: Session =>
-      UserPersistence.countByRole(role)
+      persistence.countByRole(role)
   }
 }

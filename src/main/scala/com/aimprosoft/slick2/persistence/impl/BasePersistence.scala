@@ -9,11 +9,14 @@ abstract class SlickBaseTable[T, ID](tag: Tag, tableName: String) extends Table[
   def id: Column[ID]
 }
 
-abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnType, TQ <: SlickBaseTable[T, ID]]
+abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnType]
   extends Persistence[T, ID] {
 
+  //shortcut for convenience
+  type TQ = SlickBaseTable[T, ID]
+
   //Macro expansion value
-  val tableQuery: TableQuery[TQ] /* = TableQuery[TQ] */
+  val tableQuery: TableQuery[_ <: TQ] /* = TableQuery[TQ] */
 
   //helper methods
   def byId(id: ID)(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = tableQuery.filter(_.id === id)
