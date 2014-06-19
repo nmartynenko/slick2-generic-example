@@ -22,9 +22,8 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
   def byId(id: ID)(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = tableQuery.filter(_.id === id)
 
   def byId(idOpt: Option[ID])(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = {
-    idOpt match {
-      case Some(id) => byId(id)
-      case _ => throw new IllegalArgumentException("ID option should not be None")
+    idOpt.fold(throw new IllegalArgumentException("ID option should not be None")) {
+      id => byId(id)
     }
   }
 
