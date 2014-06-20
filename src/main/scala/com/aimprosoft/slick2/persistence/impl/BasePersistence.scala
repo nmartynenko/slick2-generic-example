@@ -60,12 +60,12 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
     autoInc.insertAll(entities: _*)
   }
 
-  def update(entity: T)(implicit session: Session) {
-    byId(entity.id).update(entity)
+  def update(entity: T)(implicit session: Session): Boolean = {
+    byId(entity.id).update(entity) == 1
   }
 
-  def delete(id: ID)(implicit session: Session) {
-    byId(id).delete
+  def delete(id: ID)(implicit session: Session): Boolean = {
+    byId(id).delete == 1
   }
 
   def count(implicit session: Session): Int = {

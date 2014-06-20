@@ -49,23 +49,23 @@ with SlickTransactional{
       persistence.get(id)
   }
 
-  def add(entity: T): Unit = transactional {
+  def add(entity: T): ID = transactional {
     implicit session: Session =>
       persistence.insert(entity)
   }
 
-  def update(entity: T): Unit = transactional {
+  def update(entity: T): Boolean = transactional {
     implicit session: Session =>
       persistence.update(entity)
   }
 
-  def remove(entity: T): Unit = {
-    entity.id foreach { id =>
+  def remove(entity: T): Boolean = {
+    entity.id.fold(false) { id =>
       removeById(id)
     }
   }
 
-  def removeById(id: ID): Unit = transactional {
+  def removeById(id: ID): Boolean = transactional {
     implicit session: Session =>
       persistence.delete(id)
   }
@@ -82,7 +82,7 @@ with BaseCrudServiceImpl[User, Long] {
 
   def persistence = UserPersistence
 
-  override def add(user: User): Unit = {
+  override def add(user: User): Long = {
     //hash plain text password
     val hashedPassword = BCrypt.hashpw(user.password, BCrypt.gensalt())
 

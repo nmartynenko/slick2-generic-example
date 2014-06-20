@@ -16,13 +16,13 @@ trait BaseCrudService[T <: {val id: Option[ID]}, ID] {
 
   def getById(id: ID): Option[T]
 
-  def add(entity: T): Unit
+  def add(entity: T): ID
 
-  def update(entity: T): Unit
+  def update(entity: T): Boolean
 
-  def remove(entity: T): Unit
+  def remove(entity: T): Boolean
 
-  def removeById(id: ID): Unit
+  def removeById(id: ID): Boolean
 }
 
 trait GlossaryService extends BaseCrudService[Glossary, Long]
