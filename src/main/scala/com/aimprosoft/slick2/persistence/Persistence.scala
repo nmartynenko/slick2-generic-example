@@ -9,8 +9,6 @@ trait Persistence[T, ID] {
 
   def get(id: ID)(implicit session: JdbcBackend#Session): Option[T]
 
-  def list(implicit session: JdbcBackend#Session): Seq[T]
-
   def list(startRow: Int = -1, pageSize: Int = -1)(implicit session: JdbcBackend#Session): Seq[T]
 
   def insert(entity: T)(implicit session: JdbcBackend#Session): ID

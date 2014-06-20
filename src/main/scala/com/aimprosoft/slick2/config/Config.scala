@@ -1,18 +1,19 @@
 package com.aimprosoft.slick2.config
 
+import java.util.Properties
+import javax.sql.DataSource
+
+import com.mchange.v2.c3p0.ComboPooledDataSource
+import com.typesafe.scalalogging.slf4j.StrictLogging
+
 import scala.slick.driver._
 import scala.slick.jdbc.JdbcBackend
-import java.util.Properties
-import scala.util.{Failure, Success, Try}
-import com.typesafe.scalalogging.slf4j.StrictLogging
-import javax.sql.DataSource
-import com.mchange.v2.c3p0.ComboPooledDataSource
 
 class Config extends StrictLogging {
 
   protected lazy val configProps = {
     val props = new Properties
-    val reader = scala.io.Source.fromURL(getClass.getResource("/db.properties")).bufferedReader()
+    val reader = io.Source.fromURL(getClass.getResource("/db.properties")).bufferedReader()
     props.load(reader)
     reader.close()
     props
