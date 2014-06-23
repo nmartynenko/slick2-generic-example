@@ -1,12 +1,13 @@
 package com.aimprosoft.slick2.service.impl
 
-import com.aimprosoft.slick2.config.DB
 import com.aimprosoft.slick2.config.Config.driver.simple._
+import com.aimprosoft.slick2.config.DB
 import com.aimprosoft.slick2.model.{Glossary, User}
-import com.aimprosoft.slick2.persistence.Persistence
-import com.aimprosoft.slick2.persistence.impl.{UserPersistence, GlossaryPersistence}
-import com.aimprosoft.slick2.service.{UserService, GlossaryService, BaseCrudService}
+import com.aimprosoft.slick2.persistence._
+import com.aimprosoft.slick2.persistence.impl.{GlossaryPersistence, UserPersistence}
+import com.aimprosoft.slick2.service.{BaseCrudService, GlossaryService, UserService}
 import org.mindrot.jbcrypt.BCrypt
+
 import scala.language.reflectiveCalls
 
 trait SlickTransactional {
@@ -17,7 +18,7 @@ trait SlickTransactional {
 
 }
 
-trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService[T, ID]
+trait BaseCrudServiceImpl[T <: Identifiable[ID], ID] extends BaseCrudService[T, ID]
 with SlickTransactional{
 
   def persistence: Persistence[T, ID]

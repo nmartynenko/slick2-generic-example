@@ -1,9 +1,10 @@
 package com.aimprosoft.slick2.persistence
 
+import scala.languageFeature.reflectiveCalls
 import scala.slick.jdbc.JdbcBackend
 
 //abstract persistence trait
-trait Persistence[T, ID] {
+trait Persistence[T <: Identifiable[ID], ID] {
 
   def exists(id: ID)(implicit session: JdbcBackend#Session): Boolean
 

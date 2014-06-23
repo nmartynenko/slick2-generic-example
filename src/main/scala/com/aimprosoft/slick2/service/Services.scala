@@ -1,10 +1,12 @@
 package com.aimprosoft.slick2.service
 
-import com.aimprosoft.slick2.model.{User, Glossary}
-import com.aimprosoft.slick2.service.impl.{UserServiceImpl, GlossaryServiceImpl}
+import com.aimprosoft.slick2.model.{Glossary, User}
+import com.aimprosoft.slick2.persistence._
+import com.aimprosoft.slick2.service.impl.{GlossaryServiceImpl, UserServiceImpl}
+
 import scala.language.reflectiveCalls
 
-trait BaseCrudService[T <: {val id: Option[ID]}, ID] {
+trait BaseCrudService[T <: Identifiable[ID], ID] {
 
   def list(startRow: Int = 0, pageSize: Int = -1): Seq[T]
 

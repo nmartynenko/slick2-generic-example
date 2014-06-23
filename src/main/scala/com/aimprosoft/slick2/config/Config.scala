@@ -13,9 +13,15 @@ class Config extends StrictLogging {
 
   protected lazy val configProps = {
     val props = new Properties
-    val reader = io.Source.fromURL(getClass.getResource("/db.properties")).bufferedReader()
-    props.load(reader)
-    reader.close()
+
+    Option(io.Source.fromURL(getClass.getResource("/db.properties"))) map { res =>
+        val reader = res.bufferedReader()
+        props.load(reader)
+        reader.close()
+    } getOrElse {
+      sys.error("Could not load properties file")
+    }
+
     props
   }
 
@@ -42,7 +48,7 @@ class Config extends StrictLogging {
   def driverPassword: String = configProps.getProperty("jdbc.password")
 
   def driver(name: String = defaultName) = {
-    driverByName(name).getOrElse(sys.error("No suitable driver was found"))
+    driverByName(name) getOrElse sys.error("No suitable driver was found")
   }
 }
 

@@ -1,15 +1,16 @@
 package com.aimprosoft.slick2.persistence.impl
 
 import com.aimprosoft.slick2.config.Config.driver.simple._
-import com.aimprosoft.slick2.persistence.Persistence
+import com.aimprosoft.slick2.persistence._
+
 import scala.language.reflectiveCalls
 
 //abstract table entity
-abstract class SlickBaseTable[T, ID](tag: Tag, tableName: String) extends Table[T](tag, tableName){
+abstract class SlickBaseTable[T <: Identifiable[ID], ID](tag: Tag, tableName: String) extends Table[T](tag, tableName){
   def id: Column[ID]
 }
 
-abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnType]
+abstract class SlickBasePersistence[T <: Identifiable[ID], ID: BaseColumnType]
   extends Persistence[T, ID] {
 
   //shortcut for convenience
