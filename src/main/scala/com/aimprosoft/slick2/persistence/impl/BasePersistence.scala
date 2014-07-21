@@ -13,22 +13,19 @@ abstract class SlickBaseTable[T <: Identifiable[ID], ID](tag: Tag, tableName: St
 abstract class SlickBasePersistence[T <: Identifiable[ID], ID: BaseColumnType]
   extends Persistence[T, ID] {
 
-  //shortcut for convenience
-  type TQ = SlickBaseTable[T, ID]
-
   //Macro expansion value
-  val tableQuery: TableQuery[_ <: TQ] /* = TableQuery[TQ] */
+  protected val query: TableQuery[_ <: SlickBaseTable[T, ID]] /* = TableQuery[TQ] */
 
   //helper methods
-  def byId(id: ID)(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = tableQuery.filter(_.id === id)
+  def byId(id: ID)(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = query.filter(_.id === id)
 
-  def byId(idOpt: Option[ID])(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = {
+  def byId(idOpt: Option[ID])(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = {
     idOpt map {id => byId(id)} getOrElse {
       throw new IllegalArgumentException("ID option should not be None")
     }
   }
 
-  protected def autoInc = tableQuery returning tableQuery.map(_.id)
+  protected def autoInc = query returning query.map(_.id)
 
   //base methods
   def exists(id: ID)(implicit session: Session): Boolean = byId(id).length.run > 0
@@ -37,7 +34,7 @@ abstract class SlickBasePersistence[T <: Identifiable[ID], ID: BaseColumnType]
 
   def list(startRow: Int, pageSize: Int)(implicit session: Session): Seq[T] = {
     //create query for retrieving of all entities
-    var q = tableQuery.map(e => e)
+    var q = query.map(e => e)
 
     //if it needs to be started from certain row
     if (startRow > 0) {
@@ -70,7 +67,7 @@ abstract class SlickBasePersistence[T <: Identifiable[ID], ID: BaseColumnType]
   }
 
   def count(implicit session: Session): Int = {
-    tableQuery.length.run
+    query.length.run
   }
 
 }

@@ -35,7 +35,7 @@ libraryDependencies ++= Seq(
   //security
   "org.mindrot" % "jbcrypt" % "0.3m",
   //runtime dependencies
-  "com.typesafe.slick" %% "slick" % "2.1.0-M2",
+  "com.typesafe.slick" %% "slick" % "2.1.0-RC2",
   "org.hsqldb" % "hsqldb" % "2.3.2",
   "com.mchange" % "c3p0" % "0.9.2.1"
 )

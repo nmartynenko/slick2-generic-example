@@ -18,7 +18,7 @@ object Example {
   def createTestEnvironment(){
     //create DB schema
     DB withSession {implicit session =>
-      (UserPersistence.tableQuery.ddl ++ GlossaryPersistence.tableQuery.ddl).create
+      (UserPersistence.query.ddl ++ GlossaryPersistence.query.ddl).create
     }
 
     //added some data for User table

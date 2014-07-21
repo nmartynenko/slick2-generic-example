@@ -53,14 +53,14 @@ class SlickUsersPersistence extends SlickBasePersistence[User, Long]
 with UserPersistence{
 
   //Macro expansion implementation
-  val tableQuery = TableQuery[SlickUsers]
+  val query = TableQuery[SlickUsers]
 
   def findByEmail(email: String)(implicit session: Session): Option[User] = {
-    tableQuery.filter(_.email === email).firstOption
+    query.filter(_.email === email).firstOption
   }
 
   def countByRole(role: String)(implicit session: Session): Int = {
-    tableQuery.filter(_.role === role).length.run
+    query.filter(_.role === role).length.run
   }
 
 }
@@ -69,6 +69,6 @@ class SlickGlossariesPersistence extends SlickBasePersistence[Glossary, Long]
 with GlossaryPersistence {
 
   //Macro expansion implementation
-  val tableQuery = TableQuery[SlickGlossaries]
+  val query = TableQuery[SlickGlossaries]
 
 }
