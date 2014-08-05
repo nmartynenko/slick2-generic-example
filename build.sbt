@@ -11,9 +11,9 @@ resolvers += "Sonatype" at "http://search.maven.org/remotecontent?filepath="
 //Scala's compiler and runtime settings
 
 //default scala version
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.2"
 
-crossScalaVersions := Seq("2.10.4", "2.11.1")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalacOptions ++= Seq(
   "-feature",
@@ -24,7 +24,7 @@ scalacOptions ++= Seq(
 //dependencies settings
 
 libraryDependencies ++= {
-  val log4j2version = "2.0"
+  val log4j2version = "2.0.1"
   Seq(
     //test dependencies
     "junit" % "junit" % "4.11" % "test",
@@ -38,7 +38,7 @@ libraryDependencies ++= {
     //security
     "org.mindrot" % "jbcrypt" % "0.3m",
     //runtime dependencies
-    "com.typesafe.slick" %% "slick" % "2.1.0-RC2",
+    "com.typesafe.slick" %% "slick" % "2.1.0",
     "org.hsqldb" % "hsqldb" % "2.3.2",
     "com.mchange" % "c3p0" % "0.9.2.1"
   )

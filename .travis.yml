@@ -4,5 +4,5 @@ jdk:
 - oraclejdk8
 scala:
 - 2.10.4
-- 2.11.1
+- 2.11.2
 sbt_args: -J-XX:+CMSClassUnloadingEnabled
