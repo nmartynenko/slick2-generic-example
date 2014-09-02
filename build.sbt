@@ -2,7 +2,7 @@
 
 name := "slick2-generic-example"
 
-version := "0.3"
+version := "0.4"
 
 //dependencies resolvers
 
@@ -24,11 +24,11 @@ scalacOptions ++= Seq(
 //dependencies settings
 
 libraryDependencies ++= {
-  val log4j2version = "2.0.1"
+  val log4j2version = "2.0.2"
   Seq(
     //test dependencies
     "junit" % "junit" % "4.11" % "test",
-    "org.specs2" %% "specs2-junit" % "2.3.13",
+    "org.specs2" %% "specs2-junit" % "2.4.2",
     //logging
     "org.slf4j" % "slf4j-api" % "1.7.7",
     "org.apache.logging.log4j" % "log4j-core" % log4j2version,

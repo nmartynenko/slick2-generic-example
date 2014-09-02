@@ -8,21 +8,26 @@ import com.typesafe.scalalogging.slf4j.StrictLogging
 
 import scala.slick.driver._
 import scala.slick.jdbc.JdbcBackend
+import scala.util.Try
 
 class Config extends StrictLogging {
 
   protected lazy val configProps = {
-    val props = new Properties
+    for {
+      source <- Try(io.Source.fromURL(getClass.getResource("/db.properties")))
+      reader <- Try(source.bufferedReader())
+    } yield {
+      val props = new Properties
 
-    Option(io.Source.fromURL(getClass.getResource("/db.properties"))) map { res =>
-        val reader = res.bufferedReader()
-        props.load(reader)
-        reader.close()
-    } getOrElse {
-      sys.error("Could not load properties file")
+      //load properties
+      props.load(reader)
+      //close reader
+      reader.close()
+
+      props
     }
-
-    props
+  } getOrElse {
+    sys.error("Could not load properties file")
   }
 
   val defaultName = "default"
